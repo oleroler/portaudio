@@ -16,7 +16,7 @@ jobs:
 
       - name: Configure CMake
         run: |
-          cmake -S portaudio -B build -G "Visual Studio 17 2022" -A x64 -DPA_BUILD_STATIC=ON -DPA_BUILD_SHARED=OFF -DCMAKE_BUILD_TYPE=Release
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DPA_BUILD_STATIC=ON -DPA_BUILD_SHARED=OFF -DCMAKE_BUILD_TYPE=Release
 
       - name: Build
         run: |
@@ -28,4 +28,4 @@ jobs:
           name: portaudio-static-x64
           path: |
             build/Release/portaudio.lib
-            portaudio/include/portaudio.h
+            include/portaudio.h
