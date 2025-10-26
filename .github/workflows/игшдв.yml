@@ -1,0 +1,31 @@
+name: Build PortAudio Static
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Ручной запуск
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSVC
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Configure CMake
+        run: |
+          cmake -S portaudio -B build -G "Visual Studio 17 2022" -A x64 -DPA_BUILD_STATIC=ON -DPA_BUILD_SHARED=OFF -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: |
+          cmake --build build --config Release --target portaudio
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: portaudio-static-x64
+          path: |
+            build/Release/portaudio.lib
+            portaudio/include/portaudio.h
